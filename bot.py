@@ -1,3 +1,4 @@
+import json
 import discord
 import responses
 
@@ -9,13 +10,21 @@ async def send_message(message, user_message, is_private):
         print(e)
     
 def run_discord_bot():
-    TOKEN='MTExMjQzNDc1MzU4MTM1OTIxNA.Gg9tdq.sG3B4PpqpK0tS1JdI3yoddBrYWCvN0nkHCyoQQ'
+    
+    # Get bot token from json file
+    f = open('botConfig.json')
+    data = json.load(f)
+    TOKEN = data["DISCORD_BOT_TOKEN"]
+    f.close()
+    
     client = discord.Client(intents=discord.Intents.all())
     
+    # Startup message
     @client.event
     async def on_ready():
         print(f'{client.user} is now running!')
         
+    # User messsage handling
     @client.event
     async def on_message(message):
         if message.author == client.user:
