@@ -2,10 +2,15 @@ import json
 import discord
 import responses
 
-async def send_message(message, user_message, is_private):
+async def send_message(discord, message, user_message, is_private):
     try:
-        response = responses.handle_response(user_message)
-        await message.author.send(response) if is_private else await message.channel.send(response)
+        response = responses.handle_response(discord, user_message)
+        if is_private:
+            await message.author.send(response)
+        elif isinstance(response, str):
+            await message.channel.send(response)
+        elif isinstance(response, discord.File):
+            await message.channel.send(file=response)
     except Exception as e:
         print(e)
     

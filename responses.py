@@ -1,7 +1,7 @@
 import random
 
 # Response handler
-def handle_response(msg) -> str:
+def handle_response(msg) -> object:
     text = msg.lower()
     
     if text == 'ahoy':
@@ -15,6 +15,12 @@ def handle_response(msg) -> str:
     # Rolling a random integer
     if text[:5] == "rand ":
         return random_integer(text)
+    
+    # Random image
+    if text == "img":
+        links = ['https://i.imgur.com/Z7IiErH.png', 'https://i.imgur.com/pyCNHvE.png']
+        return links[random.randint(0, len(links)-1)]
+        # return discord.File("a.png")
         
 def random_integer(text):
     """Returns random  integer between two given numbers
